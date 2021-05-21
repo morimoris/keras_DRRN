@@ -5,7 +5,7 @@ import glob
 class datacreate:
     def __init__(self):
         self.num = 0
-        self.mag = 4
+        self.mag = 3
 
 #任意のフレーム数を切り出すプログラム
     def datacreate(self,
