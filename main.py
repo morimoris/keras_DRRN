@@ -22,12 +22,17 @@ if __name__ == "__main__":
     parser.add_argument('--recursive_brocks', type=int, default=3, help="Number of Inference nets in the model")
     parser.add_argument('--recursive_units', type=int, default=3, help="Number of Inference nets in the model")
     parser.add_argument('--input_channels', type=int, default=1, help="Number of channels for the input image")
-    parser.add_argument('--BATCH_SIZE', type=int, default=64, help="Training batch size")
+    parser.add_argument('--first_learning_rate', type = float, default = 1e-4, help = "First learning_rate")
+    parser.add_argument('--BATCH_SIZE', type=int, default=128, help="Training batch size")
     parser.add_argument('--EPOCHS', type=int, default=100, help="Number of epochs to train for")
    
     def psnr(y_true, y_pred):
         return tf.image.psnr(y_true, y_pred, 1, name=None)
 
+    def lr_schedul(epoch):
+        new_lr = args.first_learning_rate *  (0.5 ** (epoch // 10))
+        return new_lr
+        
     parser.add_argument('--mode', type=str, default='train_model', help='train_datacreate, test_datacreate, train_model, evaluate')
 
     args = parser.parse_args()
@@ -72,15 +77,14 @@ if __name__ == "__main__":
         train_x /= 255
         train_y /= 255
 
-        train_model = model.DRCN(args.recursive_depth, args.input_channels)
+        train_model = model.DRRN(args.recursive_brocks, args.recursive_units, args.input_channels)
 
-        optimizers = tf.keras.optimizers.SGD(lr=0.01, momentum=0.9, decay=1e-4, nesterov=False)
+        optimizers = tf.keras.optimizers.SGD(lr = args.first_learning_rate, momentum = 0.9, decay = 1e-4, nesterov=False)
         train_model.compile(loss = "mean_squared_error",
                         optimizer = optimizers,
                         metrics = [psnr])
 
-        reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor = 'loss', factor = 0.1, patience = 5, mode = "min", min_lr = 1e-6)
-
+        reduce_lr = tf.keras.callbacks.LearningRateScheduler(lr_schedul, verbose=0)
         train_model.fit(train_x,
                         train_y,
                         epochs = args.EPOCHS,
@@ -88,7 +92,7 @@ if __name__ == "__main__":
                         callbacks = [reduce_lr],
                         batch_size = args.BATCH_SIZE)
 
-        train_model.save("DRCN_model.h5")
+        train_model.save("DRRN_model.h5")
 
     elif args.mode == "evaluate": #評価
         physical_devices = tf.config.list_physical_devices('GPU')
