@@ -10,7 +10,8 @@ def DRRN(recursive_brocks, recursive_units, input_channels, filter_num = 128, fi
     filter_num : Filter numbers.(default 128)
     filter_size : Filter size.(default 3*3)
     """
-    Units_conv = Conv2D(filters = filter_num, kernel_size = filter_size, padding = "same")
+    Units_conv_1 = Conv2D(filters = filter_num, kernel_size = filter_size, padding = "same")
+    Units_conv_2 = Conv2D(filters = filter_num, kernel_size = filter_size, padding = "same")
     """
     units_conv
     """
@@ -26,13 +27,16 @@ def DRRN(recursive_brocks, recursive_units, input_channels, filter_num = 128, fi
         add_conv = conv2d_0
         #recursive units
         for U in range(recursive_units):
-            unit_batch = BatchNormalization()(add_conv)
-            unit_relu = ReLU()(unit_batch)
-            unit_conv = Units_conv(unit_relu) 
-            add_conv = Add()([conv2d_0, unit_conv])
+            unit_batch_1 = BatchNormalization()(add_conv)
+            unit_relu_1 = ReLU()(unit_batch_1)
+            unit_conv_1 = Units_conv_1(unit_relu_1) 
+            unit_batch_2 = BatchNormalization()(unit_conv_1)
+            unit_relu_2 = ReLU()(unit_batch_2)
+            unit_conv_2 = Units_conv_2(unit_relu_2) 
+            add_conv = Add()([conv2d_0, unit_conv_2])
 
     #output conv2d
-    conv2d_out = Conv2D(filters = filter_num, kernel_size = filter_size, padding = "same")(add_conv)
+    conv2d_out = Conv2D(filters = input_channels, kernel_size = filter_size, padding = "same")(add_conv)
 
     #skip connection
     skip_connection = Add()([input_shape, conv2d_out])

@@ -13,7 +13,7 @@ if __name__ == "__main__":
     parser.add_argument('--train_width', type=int, default=31, help="Train data size(width)")
     parser.add_argument('--test_height', type=int, default=360, help="Test data size(height)")
     parser.add_argument('--test_width', type=int, default=640, help="Test data size(width)")
-    parser.add_argument('--train_dataset_num', type=int, default=10000, help = "Number of train datasets to generate")
+    parser.add_argument('--train_dataset_num', type=int, default=50000, help = "Number of train datasets to generate")
     parser.add_argument('--test_dataset_num', type=int, default=5, help="Number of test datasets to generate")
     parser.add_argument('--train_cut_num', type=int, default=10, help="Number of train data to be generated from a single image")
     parser.add_argument('--test_cut_num', type=int, default=1, help="Number of test data to be generated from a single image")
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     parser.add_argument('--input_channels', type=int, default=1, help="Number of channels for the input image")
     parser.add_argument('--first_learning_rate', type = float, default = 1e-4, help = "First learning_rate")
     parser.add_argument('--BATCH_SIZE', type=int, default=128, help="Training batch size")
-    parser.add_argument('--EPOCHS', type=int, default=100, help="Number of epochs to train for")
+    parser.add_argument('--EPOCHS', type=int, default=1000, help="Number of epochs to train for")
    
     def psnr(y_true, y_pred):
         return tf.image.psnr(y_true, y_pred, 1, name=None)
@@ -79,17 +79,17 @@ if __name__ == "__main__":
 
         train_model = model.DRRN(args.recursive_brocks, args.recursive_units, args.input_channels)
 
-        optimizers = tf.keras.optimizers.SGD(lr = args.first_learning_rate, momentum = 0.9, decay = 1e-4, nesterov=False)
+        optimizers = tf.keras.optimizers.Adam(lr = args.first_learning_rate)
         train_model.compile(loss = "mean_squared_error",
                         optimizer = optimizers,
                         metrics = [psnr])
 
-        reduce_lr = tf.keras.callbacks.LearningRateScheduler(lr_schedul, verbose=0)
+        # reduce_lr = tf.keras.callbacks.LearningRateScheduler(lr_schedul, verbose=0)
         train_model.fit(train_x,
                         train_y,
                         epochs = args.EPOCHS,
                         verbose = 2,
-                        callbacks = [reduce_lr],
+                        # callbacks = [reduce_lr],
                         batch_size = args.BATCH_SIZE)
 
         train_model.save("DRRN_model.h5")

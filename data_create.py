@@ -5,7 +5,7 @@ import glob
 class datacreate:
     def __init__(self):
         self.num = 0
-        self.mag = 3
+        self.mag = 2
 
 #Function to generate an arbitrary number of datasets
     def datacreate(self,
