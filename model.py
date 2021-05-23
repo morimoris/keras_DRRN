@@ -1,5 +1,5 @@
 from tensorflow.python.keras.models import Model
-from tensorflow.python.keras.layers import Conv2D, Input, Multiply, Add, ReLU
+from tensorflow.python.keras.layers import Conv2D, Input, Add, ReLU
 from tensorflow.python.keras.layers.normalization import BatchNormalization
 
 def DRRN(recursive_brocks, recursive_units, input_channels, filter_num = 128, filter_size = (3, 3)): 

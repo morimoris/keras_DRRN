@@ -7,15 +7,15 @@ class datacreate:
         self.num = 0
         self.mag = 3
 
-#任意のフレーム数を切り出すプログラム
+#Function to generate an arbitrary number of datasets
     def datacreate(self,
-                img_path,     #切り取る動画が入ったファイルのpath
-                data_number,  #データセットの生成数
-                cut_frame,    #1枚の画像から生成するデータセットの数
-                HR_height,    #HRの保存サイズ
+                img_path,     #Path where training data is stored
+                data_number,  #Number of train datasets
+                cut_frame,    #Number of data to be generated from a single image
+                HR_height,    #Save HR size
                 HR_width):
 
-        LR_height = HR_height  #低解像度画像のsize = 高解像度のsize
+        LR_height = HR_height  #LR size = HR size
         LR_width = HR_width 
 
         low_data_list = []

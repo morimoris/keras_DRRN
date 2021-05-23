@@ -9,8 +9,8 @@ import tensorflow as tf
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Tensorflow DRCN Example')
 
-    parser.add_argument('--train_height', type=int, default=41, help="Train data size(height)")
-    parser.add_argument('--train_width', type=int, default=41, help="Train data size(width)")
+    parser.add_argument('--train_height', type=int, default=31, help="Train data size(height)")
+    parser.add_argument('--train_width', type=int, default=31, help="Train data size(width)")
     parser.add_argument('--test_height', type=int, default=360, help="Test data size(height)")
     parser.add_argument('--test_width', type=int, default=640, help="Test data size(width)")
     parser.add_argument('--train_dataset_num', type=int, default=10000, help = "Number of train datasets to generate")
