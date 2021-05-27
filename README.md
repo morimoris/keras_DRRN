@@ -2,7 +2,7 @@
 
 - PC environment
   - `CPU` : AMD Ryzen 5 3500 6-Core Processor
-  - `メモリ数` : 40GB
+  - `Memory size` : 40GB
   - `GPU` : NVIDIA GeForce RTX 2060 SUPER
   - `OS` : Windows 10
   
