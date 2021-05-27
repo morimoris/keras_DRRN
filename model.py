@@ -15,6 +15,7 @@ def DRRN(recursive_brocks, recursive_units, input_channels, filter_num = 128, fi
     """
     units_conv
     """
+    
     #model
     input_shape = Input((None, None, input_channels))                      
     #recursive blocks

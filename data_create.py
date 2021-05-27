@@ -7,7 +7,7 @@ class datacreate:
         self.num = 0
         self.mag = 2
 
-#Function to generate an arbitrary number of datasets
+    #Function to generate an arbitrary number of datasets
     def datacreate(self,
                 img_path,     #Path where training data is stored
                 data_number,  #Number of train datasets
