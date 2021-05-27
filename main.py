@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Tensorflow DRCN Example')
+    parser = argparse.ArgumentParser(description='Tensorflow DRRN Example')
 
     parser.add_argument('--train_height', type=int, default=31, help="Train data size(height)")
     parser.add_argument('--train_width', type=int, default=31, help="Train data size(width)")
