@@ -13,7 +13,11 @@ def DRRN(recursive_brocks, recursive_units, input_channels, filter_num = 128, fi
     Units_conv_1 = Conv2D(filters = filter_num, kernel_size = filter_size, padding = "same")
     Units_conv_2 = Conv2D(filters = filter_num, kernel_size = filter_size, padding = "same")
     """
+<<<<<<< HEAD
     units_conv1, units_conv2 → same weights
+=======
+    units_conv → same weight
+>>>>>>> 350c2147f1a4a0615c706e26d5306c910ea4adf0
     """
     
     #model
