@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Tensorflow DRCN Example')
+    parser = argparse.ArgumentParser(description='Tensorflow DRRN Example')
 
     parser.add_argument('--train_height', type=int, default=31, help="Train data size(height)")
     parser.add_argument('--train_width', type=int, default=31, help="Train data size(width)")
@@ -28,16 +28,12 @@ if __name__ == "__main__":
    
     def psnr(y_true, y_pred):
         return tf.image.psnr(y_true, y_pred, 1, name=None)
-
-    def lr_schedul(epoch):
-        new_lr = args.first_learning_rate *  (0.5 ** (epoch // 10))
-        return new_lr
-        
-    parser.add_argument('--mode', type=str, default='train_model', help='train_datacreate, test_datacreate, train_model, evaluate')
+       
+    parser.add_argument("--mode', type=str, default='train_model', help='train_datacreate, test_datacreate, train_model, evaluate")
 
     args = parser.parse_args()
 
-    if args.mode == 'train_datacreate': #Create train datasets
+    if args.mode == "train_datacreate": #Create train datasets
         datacreate = data_create.datacreate()
         train_x, train_y = datacreate.datacreate(args.train_path,       #Path where training data is stored
                                             args.train_dataset_num,     #Number of train datasets
@@ -47,7 +43,7 @@ if __name__ == "__main__":
         path = "train_data_list"
         np.savez(path, train_x, train_y)
 
-    elif args.mode == 'test_datacreate': #Create test datasets
+    elif args.mode == "test_datacreate": #Create test datasets
         datacreate = data_create.datacreate()
         test_x, test_y = datacreate.datacreate(args.test_path,
                                             args.test_dataset_num,
@@ -59,14 +55,6 @@ if __name__ == "__main__":
         np.savez(path, test_x, test_y)
 
     elif args.mode == "train_model": #train
-        physical_devices = tf.config.list_physical_devices('GPU')
-        if len(physical_devices) > 0:
-            for device in physical_devices:
-                tf.config.experimental.set_memory_growth(device, True)
-                print('{} memory growth: {}'.format(device, tf.config.experimental.get_memory_growth(device)))
-        else:
-            print("Not enough GPU hardware devices available")
-
         npz = np.load("train_data_list.npz")
         train_x = npz["arr_0"]
         train_y = npz["arr_1"]
@@ -93,14 +81,6 @@ if __name__ == "__main__":
         train_model.save("DRRN_model.h5")
 
     elif args.mode == "evaluate": #evaluate
-        physical_devices = tf.config.list_physical_devices('GPU')
-        if len(physical_devices) > 0:
-            for device in physical_devices:
-                tf.config.experimental.set_memory_growth(device, True)
-                print('{} memory growth: {}'.format(device, tf.config.experimental.get_memory_growth(device)))
-        else:
-            print("Not enough GPU hardware devices available")
-
         result_path = "result"
         os.makedirs(result_path, exist_ok = True)
 
