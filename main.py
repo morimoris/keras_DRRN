@@ -13,26 +13,26 @@ if __name__ == "__main__":
     parser.add_argument('--train_width', type=int, default=31, help="Train data size(width)")
     parser.add_argument('--test_height', type=int, default=720, help="Test data size(height)")
     parser.add_argument('--test_width', type=int, default=1280, help="Test data size(width)")
-    parser.add_argument('--train_dataset_num', type=int, default=50000, help = "Number of train datasets to generate")
+    parser.add_argument('--train_dataset_num', type=int, default=10000, help ="Number of train datasets to generate")
     parser.add_argument('--test_dataset_num', type=int, default=5, help="Number of test datasets to generate")
     parser.add_argument('--train_cut_num', type=int, default=10, help="Number of train data to be generated from a single image")
     parser.add_argument('--test_cut_num', type=int, default=1, help="Number of test data to be generated from a single image")
     parser.add_argument('--train_path', type=str, default="../../dataset/DIV2K_train_HR", help="The path containing the train image")
     parser.add_argument('--test_path', type=str, default="../../dataset/DIV2K_valid_HR", help="The path containing the test image")
-    parser.add_argument('--recursive_brocks', type=int, default=3, help="Number of Inference nets in the model")
-    parser.add_argument('--recursive_units', type=int, default=3, help="Number of Inference nets in the model")
+    parser.add_argument('--recursive_brocks', type=int, default=1, help="Number of Inference nets in the model")
+    parser.add_argument('--recursive_units', type=int, default=25, help="Number of Inference nets in the model")
     parser.add_argument('--input_channels', type=int, default=1, help="Number of channels for the input image")
     parser.add_argument('--first_learning_rate', type = float, default = 1e-4, help = "First learning_rate")
-    parser.add_argument('--BATCH_SIZE', type=int, default=128, help="Training batch size")
+    parser.add_argument('--BATCH_SIZE', type=int, default=32, help="Training batch size")
     parser.add_argument('--EPOCHS', type=int, default=1000, help="Number of epochs to train for")
    
     def psnr(y_true, y_pred):
         return tf.image.psnr(y_true, y_pred, 1, name=None)
        
-    parser.add_argument("--mode', type=str, default='train_model', help='train_datacreate, test_datacreate, train_model, evaluate")
+    parser.add_argument("--mode", type=str, default="train_model", help="train_datacreate, test_datacreate, train_model, evaluate")
 
     args = parser.parse_args()
-
+    
     if args.mode == "train_datacreate": #Create train datasets
         datacreate = data_create.datacreate()
         train_x, train_y = datacreate.datacreate(args.train_path,       #Path where training data is stored
